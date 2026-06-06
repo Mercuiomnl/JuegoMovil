@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 159459153}
   - component: {fileID: 159459152}
   - component: {fileID: 159459151}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Suelo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3772,7 +3772,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2075885221}
   - component: {fileID: 2075885220}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Grid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3848,6 +3848,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 144800154684032899, guid: 078604d430055884f8add68417cf082d, type: 3}
+      propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 144800154684032899, guid: 078604d430055884f8add68417cf082d, type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 0
       objectReference: {fileID: 0}
@@ -3920,8 +3924,12 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5208008760017491351, guid: 078604d430055884f8add68417cf082d, type: 3}
+      propertyPath: rayCast
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5208008760017491351, guid: 078604d430055884f8add68417cf082d, type: 3}
       propertyPath: upForce
-      value: 400
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5208008760017491351, guid: 078604d430055884f8add68417cf082d, type: 3}
       propertyPath: velocity
@@ -3936,6 +3944,18 @@ PrefabInstance:
       value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 5208008760017491351, guid: 078604d430055884f8add68417cf082d, type: 3}
+      propertyPath: castDistance
+      value: 0.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 5208008760017491351, guid: 078604d430055884f8add68417cf082d, type: 3}
+      propertyPath: sizeRayBox.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5208008760017491351, guid: 078604d430055884f8add68417cf082d, type: 3}
+      propertyPath: sizeRayBox.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5208008760017491351, guid: 078604d430055884f8add68417cf082d, type: 3}
       propertyPath: _capsuleCollider
       value: 
       objectReference: {fileID: 1679891725}
@@ -3944,24 +3964,28 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5208008760017491351, guid: 078604d430055884f8add68417cf082d, type: 3}
+      propertyPath: capaSuelo.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5208008760017491351, guid: 078604d430055884f8add68417cf082d, type: 3}
       propertyPath: controladorAtaque
       value: 
       objectReference: {fileID: 337966965}
     - target: {fileID: 5867491801034902329, guid: 078604d430055884f8add68417cf082d, type: 3}
       propertyPath: m_Size.x
-      value: 0.99999934
+      value: 1.5134585
       objectReference: {fileID: 0}
     - target: {fileID: 5867491801034902329, guid: 078604d430055884f8add68417cf082d, type: 3}
       propertyPath: m_Size.y
-      value: 2.0751948
+      value: 2.5909915
       objectReference: {fileID: 0}
     - target: {fileID: 5867491801034902329, guid: 078604d430055884f8add68417cf082d, type: 3}
       propertyPath: m_Offset.x
-      value: 0.015039176
+      value: -0.04650426
       objectReference: {fileID: 0}
     - target: {fileID: 5867491801034902329, guid: 078604d430055884f8add68417cf082d, type: 3}
       propertyPath: m_Offset.y
-      value: 0.037597418
+      value: 0.29549575
       objectReference: {fileID: 0}
     - target: {fileID: 7949012239508367440, guid: 078604d430055884f8add68417cf082d, type: 3}
       propertyPath: m_LocalPosition.x

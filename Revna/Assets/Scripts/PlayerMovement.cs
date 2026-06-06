@@ -4,10 +4,15 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     //variables
-    [SerializeField] private float upForce;
     [SerializeField] private float velocity;
 
-    private bool _canJump = true; 
+    [SerializeField] private float upForce;
+
+    [SerializeField] Vector2 sizeRayBox;
+    [SerializeField] float castDistance; 
+    public LayerMask capaSuelo;
+    private bool enSuelo; 
+
     //componentes
     [SerializeField] private Animator _animator; 
 
@@ -38,26 +43,30 @@ public class PlayerMovement : MonoBehaviour
             timer1 -= Time.deltaTime;
         }
 
-        Move(); 
+        Move();
         Animator();
 
     }
-
-    public void Jump(InputAction.CallbackContext callbackContext)
+    public bool touchFloor()
     {
-        if (callbackContext.performed == true && _canJump == true)
+        if(Physics2D.BoxCast(transform.position, sizeRayBox, 0, -transform.up, castDistance, capaSuelo))
         {
-            _animator.SetBool("Saltar", true);
-
-            rb2d.AddForce(Vector2.up * upForce);
-            _canJump = false;
+            return true;
+        }
+        else
+        {
+            return false; 
         }
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    public void Jump()
     {
-        _canJump = true;
-        _animator.SetBool("Saltar", false);
+        
+        if (touchFloor())
+        {
+            rb2d.AddForce(Vector2.up * upForce, ForceMode2D.Impulse); 
+        }
     }
+
     private void Move()
     {
         _input = py.actions["Move"].ReadValue<Vector2>();
@@ -121,6 +130,7 @@ public class PlayerMovement : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube(transform.position - transform.up * castDistance, sizeRayBox);
         Gizmos.DrawWireSphere(controladorAtaque.position, radioAtaque); 
     }
 }
