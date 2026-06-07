@@ -2,6 +2,11 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
+    [Header("ref")]
+    [SerializeField] private Rigidbody rb;
+
+
+    [Header("Life")]
     [SerializeField] private int maxLife;
     [SerializeField] private int actualLife;
 

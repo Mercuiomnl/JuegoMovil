@@ -1,5 +1,6 @@
 using UnityEngine;
-using UnityEngine.InputSystem; 
+using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -7,11 +8,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float velocity;
 
     [SerializeField] private float upForce;
+    [SerializeField] private float reboteForce;
 
     [SerializeField] Vector2 sizeRayBox;
     [SerializeField] float castDistance; 
     public LayerMask capaSuelo;
-    private bool enSuelo; 
+
+    private bool takingDamage; 
+       
 
     //componentes
     [SerializeField] private Animator _animator; 
@@ -46,34 +50,43 @@ public class PlayerMovement : MonoBehaviour
         Move();
         Animator();
 
+        
     }
     public bool touchFloor()
     {
         if(Physics2D.BoxCast(transform.position, sizeRayBox, 0, -transform.up, castDistance, capaSuelo))
         {
+            //_animator.SetBool("Saltar", false); 
             return true;
         }
         else
         {
+            //_animator.SetBool("Saltar", false);
             return false; 
         }
     }
     public void Jump()
     {
-        
-        if (touchFloor())
+        if (touchFloor() && !takingDamage)
         {
+            _animator.SetBool("Saltar", true);
             rb2d.AddForce(Vector2.up * upForce, ForceMode2D.Impulse); 
         }
     }
-
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        _animator.SetBool("Saltar", false); 
+    }
     private void Move()
     {
-        _input = py.actions["Move"].ReadValue<Vector2>();
-        //Debug.Log(_input); 
+        if (!takingDamage)
+        {
+            _input = py.actions["Move"].ReadValue<Vector2>();
+            //Debug.Log(_input); 
 
-        rb2d.transform.position += new Vector3(_input.x, 0, 0) * velocity * Time.deltaTime;
-        //rb2d.linearVelocity = new Vector2(_input.x, 0) * velocity * Time.deltaTime;
+            rb2d.transform.position += new Vector3(_input.x, 0, 0) * velocity * Time.deltaTime;
+            //rb2d.linearVelocity = new Vector2(_input.x, 0) * velocity * Time.deltaTime;
+        }
     }
     private void Animator()
     {
@@ -95,7 +108,6 @@ public class PlayerMovement : MonoBehaviour
         {
             Collider2D[] touchedObjects = Physics2D.OverlapCircleAll(controladorAtaque.position, radioAtaque);
             
-            //if (callbackContext.performed == true)
             {
                 foreach (Collider2D objeto in touchedObjects)
                 {
