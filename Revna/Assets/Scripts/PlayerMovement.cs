@@ -7,17 +7,15 @@ public class PlayerMovement : MonoBehaviour
     //variables
     [SerializeField] private float velocity;
 
+    [Header("Jump")]
     [SerializeField] private float upForce;
-    [SerializeField] private float reboteForce;
-
+    [Header("Rays")]
     [SerializeField] Vector2 sizeRayBox;
     [SerializeField] float castDistance; 
     public LayerMask capaSuelo;
 
-    private bool takingDamage; 
-       
-
     //componentes
+    [Header("Components")]
     [SerializeField] private Animator _animator; 
 
     private Rigidbody2D rb2d;
@@ -31,7 +29,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private int cantStrongDamage;
 
     public float cooldown1 = 0.5f;
-    public float timer1; 
+    public float timer1;
+
+    public bool sePuedeMover = true;
+    [SerializeField] private Vector2 velRebote; 
 
     private void Start()
     {
@@ -46,15 +47,35 @@ public class PlayerMovement : MonoBehaviour
         {
             timer1 -= Time.deltaTime;
         }
-
-        Move();
-        Animator();
-
+        if (sePuedeMover)
+        {
+            Move();
+        }
         
+        Animator();
     }
-    public bool touchFloor()
+    private void Move()
     {
-        if(Physics2D.BoxCast(transform.position, sizeRayBox, 0, -transform.up, castDistance, capaSuelo))
+        _input = py.actions["Move"].ReadValue<Vector2>();
+
+        rb2d.transform.position += new Vector3(_input.x, 0, 0) * velocity * Time.deltaTime;
+        //rb2d.linearVelocity = new Vector2(_input.x, 0) * velocity * Time.deltaTime;   
+    }
+    public void Jump()
+    {
+        if (TouchFloor()) 
+        {
+            _animator.SetBool("Saltar", true);
+            rb2d.AddForce(Vector2.up * upForce, ForceMode2D.Impulse);
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        _animator.SetBool("Saltar", false); 
+    }
+    public bool TouchFloor()
+    {
+        if (Physics2D.BoxCast(transform.position, sizeRayBox, 0, -transform.up, castDistance, capaSuelo))
         {
             //_animator.SetBool("Saltar", false); 
             return true;
@@ -62,31 +83,12 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             //_animator.SetBool("Saltar", false);
-            return false; 
+            return false;
         }
     }
-    public void Jump()
+    public void Rebote(Vector2 golpe)
     {
-        if (touchFloor() && !takingDamage)
-        {
-            _animator.SetBool("Saltar", true);
-            rb2d.AddForce(Vector2.up * upForce, ForceMode2D.Impulse); 
-        }
-    }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        _animator.SetBool("Saltar", false); 
-    }
-    private void Move()
-    {
-        if (!takingDamage)
-        {
-            _input = py.actions["Move"].ReadValue<Vector2>();
-            //Debug.Log(_input); 
-
-            rb2d.transform.position += new Vector3(_input.x, 0, 0) * velocity * Time.deltaTime;
-            //rb2d.linearVelocity = new Vector2(_input.x, 0) * velocity * Time.deltaTime;
-        }
+        rb2d.linearVelocity = new Vector2(-velRebote.x * golpe.x, velRebote.y);
     }
     private void Animator()
     {
@@ -106,6 +108,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if(timer1 <= 0)
         {
+            _animator.SetTrigger("Atacar");
             Collider2D[] touchedObjects = Physics2D.OverlapCircleAll(controladorAtaque.position, radioAtaque);
             
             {
@@ -113,7 +116,6 @@ public class PlayerMovement : MonoBehaviour
                 {
                     if (objeto.TryGetComponent(out EnemyHealth enemyHealth))
                     {
-                        _animator.SetTrigger("Atacar");
                         enemyHealth.TakeDamage(cantDamage);
                         Debug.Log("Atacó 1");
                     }

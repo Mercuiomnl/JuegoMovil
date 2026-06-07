@@ -17,13 +17,11 @@ public class Enemy : MonoBehaviour
         _rb2d.linearVelocity = new Vector2(velocity, _rb2d.linearVelocity.y);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D other)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player"))
         {
-            Vector2 dirDamage = new Vector2(transform.position.x, 0);
-
-            //collision.gameObject.GetComponent<PlayerMovement>().GetDamage(dirDamage, 1); 
+            other.gameObject.GetComponent<PlayerLife>().damage(1, other.GetContact(0).normal);
         }
     }
 
