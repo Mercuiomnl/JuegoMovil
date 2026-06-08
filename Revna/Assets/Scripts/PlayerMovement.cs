@@ -77,6 +77,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Physics2D.BoxCast(transform.position, sizeRayBox, 0, -transform.up, castDistance, capaSuelo))
         {
+            Debug.Log("Toca"); 
             //_animator.SetBool("Saltar", false); 
             return true;
         }
@@ -110,11 +111,10 @@ public class PlayerMovement : MonoBehaviour
         {
             _animator.SetTrigger("Atacar");
             Collider2D[] touchedObjects = Physics2D.OverlapCircleAll(controladorAtaque.position, radioAtaque);
-            
             {
                 foreach (Collider2D objeto in touchedObjects)
                 {
-                    if (objeto.TryGetComponent(out EnemyHealth enemyHealth))
+                    if(objeto.TryGetComponent(out EnemyHealth enemyHealth))
                     {
                         enemyHealth.TakeDamage(cantDamage);
                         Debug.Log("Atacó 1");

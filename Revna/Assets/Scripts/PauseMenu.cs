@@ -5,7 +5,8 @@ public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject pauseButton;
-
+    [SerializeField] private GameObject playButton;
+    [SerializeField] private GameObject ExitButton;
     public void PauseGame()
     {
         Time.timeScale = 0;
@@ -21,6 +22,14 @@ public class PauseMenu : MonoBehaviour
     }
     public void Salir()
     {
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().Menu);
+        SceneManager.LoadScene("Menu");
+    }
+    public void StartGame()
+    {
+        SceneManager.LoadScene("Beach");         
+    }
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 }
