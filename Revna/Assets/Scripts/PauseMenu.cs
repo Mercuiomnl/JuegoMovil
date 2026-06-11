@@ -7,6 +7,12 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private GameObject pauseButton;
     [SerializeField] private GameObject playButton;
     [SerializeField] private GameObject ExitButton;
+
+    private PlayerMovement playerMovement;
+    public void Start()
+    {
+        playerMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+    }
     public void PauseGame()
     {
         Time.timeScale = 0;
@@ -26,6 +32,7 @@ public class PauseMenu : MonoBehaviour
     }
     public void StartGame()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene("Beach");         
     }
     public void ExitGame()

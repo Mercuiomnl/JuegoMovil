@@ -1,4 +1,4 @@
-using UnityEditor.Build;
+//using UnityEditor.Build;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -15,7 +15,7 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         _rb2d = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
+        //animator = GetComponent<Animator>();
     }
 
     private void Update()
